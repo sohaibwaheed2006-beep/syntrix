@@ -12,7 +12,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "HackData — Synthetic Data Platform",
+  title: "Syntrix — Synthetic Data Platform",
   description:
     "Generate realistic, privacy-safe tabular, relational and document data on demand. Schema-aware, referentially consistent and ready to export as CSV, JSON or SQL.",
   icons: {

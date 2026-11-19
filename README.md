@@ -1,6 +1,8 @@
-# HackData v2 - AI-Powered Synthetic Data Generator
+# Syntrix - AI-Powered Synthetic Data Generator
 
 An intelligent synthetic data generator built with **Next.js 15**, **Google Gemini AI**, and **Supabase**. Designed to analyze data schemas, model complex relationships, and generate high-fidelity test data across tabular and document formats.
+
+**Live demo:** https://hackdatav2-woad.vercel.app
 
 ---
 
@@ -10,7 +12,7 @@ An intelligent synthetic data generator built with **Next.js 15**, **Google Gemi
 - **Relational Integrity Engine**: Maintains referential integrity across related parent-child tables with customizable cardinalities.
 - **Document & Tabular Generation**: Supports tabular datasets as well as realistic financial and business documents (e.g. invoices, bank statements).
 - **Multiple Export Formats**: Export generated datasets as CSV, JSON, or dependency-ordered SQL migrations with create and insert statements.
-- **Modern UI**: Polished glassmorphic interface with warm neutral aesthetics, real-time preview, and project management.
+- **Modern UI**: Clean, professional interface with light and dark themes, a guided step-by-step workflow, live preview, and project management. Fully responsive on phones, tablets and desktops.
 
 ---
 
@@ -25,8 +27,8 @@ An intelligent synthetic data generator built with **Next.js 15**, **Google Gemi
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/sohaibwaheed2006-beep/hackdatav2.git
-   cd hackdatav2
+   git clone https://github.com/sohaibwaheed2006-beep/syntrix.git
+   cd syntrix
    ```
 
 2. Install dependencies:

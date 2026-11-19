@@ -50,7 +50,7 @@ export default function Sidebar({
           <button type="button" onClick={goHome} className="flex items-center gap-2.5 text-left" title="Go to Home">
             <LogoMark size={30} />
             <div className="leading-tight">
-              <p className="text-[15px] font-semibold text-white tracking-tight">HackData</p>
+              <p className="text-[15px] font-semibold text-white tracking-tight">Syntrix</p>
               <p className="text-[11px] text-slate-400">Synthetic Data Platform</p>
             </div>
           </button>
@@ -143,7 +143,7 @@ export default function Sidebar({
         </div>
 
         <div className="px-4 py-3 border-t border-white/[0.06] text-[11px] text-slate-500 flex items-center justify-between">
-          <span>HackData v2</span>
+          <span>Syntrix</span>
           <span>Synthetic · Privacy-safe</span>
         </div>
       </aside>

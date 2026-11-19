@@ -16,7 +16,7 @@ interface PersistedInput {
   fileType: FileType;
 }
 
-const storageKey = (projectId: string) => `hackdata:upload:${projectId}`;
+const storageKey = (projectId: string) => `syntrix:upload:${projectId}`;
 
 function loadPersistedInput(projectId: string): PersistedInput | null {
   if (typeof window === "undefined") return null;

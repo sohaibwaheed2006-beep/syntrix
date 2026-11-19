@@ -89,7 +89,7 @@ export default function Home() {
           setSelectedProject(null);
         }
         try {
-          window.sessionStorage.removeItem(`hackdata:upload:${project.id}`);
+          window.sessionStorage.removeItem(`syntrix:upload:${project.id}`);
         } catch {
           // sessionStorage unavailable — nothing to clean up.
         }
@@ -153,7 +153,7 @@ export default function Home() {
             title="Go to Home"
           >
             <LogoMark size={24} />
-            HackData
+            Syntrix
           </button>
 
           <button type="button" onClick={() => setShowCreateModal(true)} className="btn-3d px-3.5 py-2 text-xs font-semibold">

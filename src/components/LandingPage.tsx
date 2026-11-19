@@ -30,7 +30,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
               <span className="gradient-text">without the production risk.</span>
             </h1>
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed max-w-xl mb-8">
-              HackData learns the structure of your real datasets and generates realistic, privacy-safe
+              Syntrix learns the structure of your real datasets and generates realistic, privacy-safe
               tabular, relational and document data on demand. Use it for testing, demos and analytics,
               without ever exposing a real customer record.
             </p>
@@ -187,7 +187,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
             </h2>
             <p className="text-[var(--text-secondary)] leading-relaxed mb-6">
               Real data is slow to procure, risky to share and often unavailable when you need it.
-              HackData removes that bottleneck. Teams can build, test and present with confidence
+              Syntrix removes that bottleneck. Teams can build, test and present with confidence
               without waiting for approvals or exposing sensitive information.
             </p>
             <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-subtle)] p-5">
@@ -241,7 +241,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
         <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 flex flex-col xl:flex-row items-center justify-between gap-4 text-sm text-center text-[var(--text-muted)]">
           <div className="flex items-center gap-2">
             <LogoMark size={22} />
-            <span className="font-semibold text-[var(--text-primary)]">HackData</span>
+            <span className="font-semibold text-[var(--text-primary)]">Syntrix</span>
             <span>· Synthetic Data Platform</span>
           </div>
           <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
@@ -249,7 +249,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
             <a href="#how-it-works" className="hover:text-[var(--text-primary)] transition-colors">How it works</a>
             <a href="#use-cases" className="hover:text-[var(--text-primary)] transition-colors">Use cases</a>
           </nav>
-          <p>© {new Date().getFullYear()} HackData</p>
+          <p>© {new Date().getFullYear()} Syntrix</p>
         </div>
       </footer>
     </div>
@@ -356,7 +356,7 @@ function ProductPreview() {
 const FEATURES = [
   {
     title: "Automatic schema detection",
-    text: "Upload CSV, JSON or SQL and HackData infers column types, keys, constraints and value distributions automatically.",
+    text: "Upload CSV, JSON or SQL and Syntrix infers column types, keys, constraints and value distributions automatically.",
     icon: <Svg><path d="M4 6h16M4 12h10M4 18h7" /><circle cx="18" cy="16" r="3" /><path d="m20.5 18.5 1.5 1.5" /></Svg>,
   },
   {

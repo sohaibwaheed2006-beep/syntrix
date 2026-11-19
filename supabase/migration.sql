@@ -1,5 +1,5 @@
 -- ============================================
--- HackDataV2 — Synthetic Data Platform
+-- Syntrix — Synthetic Data Platform
 -- Complete Database Schema
 -- ============================================
 -- Run this in Supabase SQL Editor:

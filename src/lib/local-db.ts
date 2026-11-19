@@ -4,7 +4,7 @@ import crypto from "crypto";
 import os from "os";
 
 const DATA_DIR = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
-  ? path.join(os.tmpdir(), "hackdata-data")
+  ? path.join(os.tmpdir(), "syntrix-data")
   : path.join(process.cwd(), ".data");
 const DB_FILE = path.join(DATA_DIR, "db.json");
 
