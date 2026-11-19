@@ -40,7 +40,12 @@ export default function CreateProjectModal({ onCreated, onClose }: Props) {
       }
       onCreated(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create project");
+      const message = err instanceof Error ? err.message : "Failed to create project";
+      setError(
+        /fetch failed|failed to fetch|network/i.test(message)
+          ? "Can't reach the database right now. Please try again in a moment."
+          : message
+      );
     } finally {
       setLoading(false);
     }

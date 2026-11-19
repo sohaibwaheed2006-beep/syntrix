@@ -14,7 +14,9 @@ export async function GET(
     .eq("id", id)
     .single();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 404 });
+  if (error || !data) {
+    return NextResponse.json({ error: error?.message || "Project not found" }, { status: 404 });
+  }
   return NextResponse.json(data);
 }
 

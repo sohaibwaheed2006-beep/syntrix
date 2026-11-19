@@ -158,12 +158,15 @@ function analyzeCSV(content: string, fileName: string): AnalysisResult {
     return obj;
   });
 
-  const columns = headers.map((header, colIdx) => {
-    const values = rows.map((r) => r[colIdx]).filter((v) => v !== undefined);
-    return inferColumnDef(header, values, rows.length);
-  });
-
   const tableName = fileName.replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9_]/g, "_") || "table";
+
+  const columns = resolveInferredPrimaryKey(
+    headers.map((header, colIdx) => {
+      const values = rows.map((r) => r[colIdx]).filter((v) => v !== undefined);
+      return inferColumnDef(header, values, rows.length);
+    }),
+    tableName
+  );
 
   const primaryKeys = columns.filter((c) => c.isPrimary).map((c) => c.name);
   const uniqueFields = columns.filter((c) => c.isUnique).map((c) => c.name);
@@ -431,13 +434,16 @@ function analyzeJSONArray(arr: Record<string, unknown>[], tableName: string): Pa
 
   const sampleData = cleaned.slice(0, 20);
 
-  const columns = headers.map((header) => {
-    const values = cleaned
-      .map((r) => r[header])
-      .filter((v) => v !== undefined && v !== null)
-      .map(String);
-    return inferColumnDef(header, values, cleaned.length);
-  });
+  const columns = resolveInferredPrimaryKey(
+    headers.map((header) => {
+      const values = cleaned
+        .map((r) => r[header])
+        .filter((v) => v !== undefined && v !== null)
+        .map(String);
+      return inferColumnDef(header, values, cleaned.length);
+    }),
+    tableName
+  );
 
   const primaryKeys = columns.filter((c) => c.isPrimary).map((c) => c.name);
   const uniqueFields = columns.filter((c) => c.isUnique).map((c) => c.name);
@@ -634,6 +640,37 @@ function mapSQLType(sqlType: string): ColumnDef["type"] {
     CHARACTER: "string",
   };
   return map[t] || "string";
+}
+
+// inferColumnDef flags every `*_id` column with all-unique sample values as a
+// primary key. With small samples that also catches foreign keys (e.g.
+// orders.customer_id), which hides the relationship from the relationship
+// analyzer. Keep a single inferred PK per table and demote the rest.
+function resolveInferredPrimaryKey(columns: ColumnDef[], tableName: string): ColumnDef[] {
+  const candidates = columns.filter((c) => c.isPrimary);
+  if (candidates.length <= 1) return columns;
+
+  const isExplicit = (n: string) => n === "id" || n.startsWith("pk_") || n.endsWith("_pk");
+  const explicit = candidates.filter((c) => isExplicit(c.name.toLowerCase()));
+
+  let keep: Set<string>;
+  if (explicit.length > 0) {
+    keep = new Set(explicit.map((c) => c.name));
+  } else {
+    const t = tableName.toLowerCase();
+    const singulars = new Set([t, t.replace(/es$/, ""), t.replace(/s$/, "")]);
+    const match = candidates.find((c) => {
+      const base = c.name.toLowerCase().replace(/_id$/, "");
+      return singulars.has(base);
+    });
+    keep = new Set([(match || candidates[0]).name]);
+  }
+
+  // Demoted columns are almost always foreign keys; their uniqueness in a small
+  // sample is coincidental, and keeping it would classify every FK as 1:1.
+  return columns.map((c) =>
+    c.isPrimary && !keep.has(c.name) ? { ...c, isPrimary: false, isUnique: false } : c
+  );
 }
 
 function inferColumnDef(name: string, values: string[], totalRowCount: number): ColumnDef {

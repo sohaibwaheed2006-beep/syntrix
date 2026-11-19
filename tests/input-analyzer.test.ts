@@ -99,3 +99,31 @@ describe("analyzeInput — messy.csv fixture", () => {
     assert.match(d.qualityWarning || "", /ambiguous/);
   });
 });
+
+describe("analyzeInput — primary key inference", () => {
+  const json = JSON.stringify({
+    customers: [
+      { customer_id: 1, name: "Maria Chen" },
+      { customer_id: 2, name: "Ahmed Raza" },
+    ],
+    orders: [
+      { order_id: 101, customer_id: 1, total: 150 },
+      { order_id: 102, customer_id: 2, total: 89.99 },
+    ],
+  });
+
+  test("keeps a single inferred PK per table, preferring the table-named *_id", () => {
+    const result = analyzeInput(json, "shop.json", "json");
+    const orders = result.tables.find((t) => t.name === "orders")!;
+    assert.deepEqual(orders.primaryKeys, ["order_id"]);
+    const fk = orders.columns.find((c) => c.name === "customer_id")!;
+    assert.equal(fk.isPrimary, false);
+    assert.equal(fk.isUnique, false);
+  });
+
+  test("explicit id column wins over unique *_id columns", () => {
+    const csv = "id,account_id,amount\n1,77,10\n2,78,20\n3,79,30";
+    const result = analyzeInput(csv, "payments.csv", "csv");
+    assert.deepEqual(result.tables[0].primaryKeys, ["id"]);
+  });
+});
