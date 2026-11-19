@@ -101,7 +101,7 @@ export default function ConfigPanel({ projectId, dataType, onSaved }: Props) {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h2 className="text-2xl font-black mb-1"><span className="gradient-text">Generation</span> Configuration</h2>
+      <h2 className="text-xl sm:text-2xl font-bold tracking-tight mb-1">Generation Configuration</h2>
       <p className="text-[var(--text-secondary)] mb-6">
         Customize how your synthetic data is generated.
       </p>
@@ -209,14 +209,11 @@ export default function ConfigPanel({ projectId, dataType, onSaved }: Props) {
                   key={level}
                   type="button"
                   onClick={() => setConfig({ ...config, privacy_level: level })}
-                  style={{
-                    animationDelay: `${i * 0.05}s`,
-                    ...(active ? { background: "linear-gradient(135deg, var(--accent), var(--accent-2))" } : {}),
-                  }}
-                  className={`animate-fade-up py-2.5 rounded-xl text-sm font-bold transition-all duration-300 capitalize ${
+                  style={{ animationDelay: `${i * 0.05}s` }}
+                  className={`animate-fade-up py-2.5 rounded-lg text-sm font-medium transition-colors capitalize border ${
                     active
-                      ? "text-white scale-110 shadow-lg glow-accent"
-                      : "bg-white/60 dark:bg-white/5 text-gray-600 hover:-translate-y-0.5 hover:shadow-md border border-white/40"
+                      ? "bg-[var(--accent)] border-[var(--accent)] text-white"
+                      : "bg-[var(--bg-card)] border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-subtle)]"
                   }`}
                 >
                   {level}
@@ -243,14 +240,13 @@ export default function ConfigPanel({ projectId, dataType, onSaved }: Props) {
                     key={type}
                     type="button"
                     onClick={() => setConfig({ ...config, document_type: type })}
-                    style={active ? { background: "linear-gradient(135deg, var(--accent), var(--accent-2))" } : {}}
-                    className={`py-3.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+                    className={`py-3 rounded-lg text-sm font-medium transition-colors border ${
                       active
-                        ? "text-white scale-105 shadow-lg glow-accent"
-                        : "bg-white/60 text-gray-600 hover:-translate-y-0.5 hover:shadow-md border border-white/40"
+                        ? "bg-[var(--accent)] border-[var(--accent)] text-white"
+                        : "bg-[var(--bg-card)] border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-subtle)]"
                     }`}
                   >
-                    {type === "invoice" ? "🧾 Invoices" : "🏦 Bank Statements"}
+                    {type === "invoice" ? "Invoices" : "Bank Statements"}
                   </button>
                 );
               })}

@@ -179,7 +179,7 @@ CREATE TABLE orders (
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h2 className="text-2xl font-black mb-1"><span className="gradient-text">Provide</span> Input</h2>
+      <h2 className="text-xl sm:text-2xl font-bold tracking-tight mb-1">Provide Input</h2>
       <p className="text-[var(--text-secondary)] mb-6">
         Upload a file or paste data. We&apos;ll analyze the structure automatically.
       </p>
@@ -247,19 +247,19 @@ CREATE TABLE orders (
         <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => { setContent(sampleCSV); setFileType("csv"); setFileName("sample.csv"); }}
-            className="chip-3d px-3 py-1.5 rounded-full text-xs font-semibold hover:-translate-y-0.5 transition-transform"
+            className="chip-3d px-3 py-1.5 rounded-full text-xs font-semibold transition-transform"
           >
-            📊 Sample CSV
+            Sample CSV
           </button>
           <button
             onClick={() => { setContent(sampleJSON); setFileType("json"); setFileName("sample.json"); }}
-            className="chip-3d px-3 py-1.5 rounded-full text-xs font-semibold hover:-translate-y-0.5 transition-transform"
+            className="chip-3d px-3 py-1.5 rounded-full text-xs font-semibold transition-transform"
           >
-            🔗 Sample JSON (Relational)
+            Sample JSON (Relational)
           </button>
           <button
             onClick={() => { setContent(sampleSQL); setFileType("sql"); setFileName("schema.sql"); }}
-            className="chip-3d px-3 py-1.5 rounded-full text-xs font-semibold hover:-translate-y-0.5 transition-transform"
+            className="chip-3d px-3 py-1.5 rounded-full text-xs font-semibold transition-transform"
           >
             🗃️ Sample SQL Schema
           </button>

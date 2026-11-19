@@ -57,7 +57,7 @@ export default function SchemaReview({ projectId, onConfirmed }: Props) {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <h2 className="text-2xl font-black mb-1"><span className="gradient-text">Schema</span> Review</h2>
+      <h2 className="text-xl sm:text-2xl font-bold tracking-tight mb-1">Schema Review</h2>
       <p className="text-[var(--text-secondary)] mb-6">
         Review and edit the detected schema. Confirm when ready.
       </p>
@@ -69,7 +69,7 @@ export default function SchemaReview({ projectId, onConfirmed }: Props) {
           style={{ animationDelay: `${si * 0.1}s` }}
         >
           <div className="flex items-center gap-3 mb-4">
-            <h3 className="text-lg font-black gradient-text">{schema.table_name}</h3>
+            <h3 className="text-lg font-semibold">{schema.table_name}</h3>
             <span className="chip-3d px-2.5 py-0.5 text-xs rounded-full font-semibold">
               {schema.columns.length} columns
             </span>
@@ -182,7 +182,7 @@ export default function SchemaReview({ projectId, onConfirmed }: Props) {
 
       {relationships.length > 0 && (
         <div className="glass spotlight lift rounded-2xl p-6 mb-4 animate-fade-up">
-          <h3 className="text-lg font-black mb-4"><span className="gradient-text-2">Detected</span> Relationships</h3>
+          <h3 className="text-base font-semibold mb-4">Detected Relationships</h3>
           {relationships.map((rel, idx) => (
             <div
               key={idx}

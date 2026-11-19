@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import SpotlightRoot from "@/components/SpotlightRoot";
 
 export const metadata: Metadata = {
-  title: "HackDataV2 — Synthetic Data Platform",
-  description: "Realistic, privacy-safe tabular, relational and document data — generated on demand.",
+  title: "HackData — Synthetic Data Platform",
+  description:
+    "Generate realistic, privacy-safe tabular, relational and document data on demand. Schema-aware, referentially consistent and ready to export as CSV, JSON or SQL.",
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: "/icon.svg",
@@ -19,10 +19,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        <SpotlightRoot />
-        {children}
-      </body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

@@ -54,7 +54,7 @@ export default function GeneratePanel({ projectId, onGenerated }: Props) {
 
   return (
     <div className="max-w-2xl mx-auto text-center">
-      <div className="glass rounded-3xl p-12 border border-[var(--border)] shadow-xl animate-scale-in">
+      <div className="glass rounded-xl p-12 border border-[var(--border)] shadow-xl animate-scale-in">
         <div className="mb-6">
           <div className="inline-block">
             <svg width="112" height="112" viewBox="0 0 80 80" fill="none" className="mx-auto drop-shadow-2xl">
@@ -72,7 +72,7 @@ export default function GeneratePanel({ projectId, onGenerated }: Props) {
           </div>
         </div>
 
-        <h2 className="text-3xl font-black mb-2"><span className="gradient-text">Ready</span> to Generate</h2>
+        <h2 className="text-2xl font-bold tracking-tight mb-2">Ready to Generate</h2>
         <p className="text-[var(--text-secondary)] mb-8">
           Your schema is configured. Click below to generate synthetic data using AI.
         </p>
