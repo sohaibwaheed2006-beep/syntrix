@@ -4,6 +4,9 @@ import { analyzeInput, InputValidationError } from "@/lib/analyzers/input-analyz
 import { detectRelationships } from "@/lib/analyzers/relationship-analyzer";
 import { analyzeSchemaWithAI } from "@/lib/ai/ai-layer";
 
+// AI schema enhancement can exceed Vercel's short default function timeout.
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { projectId, content, fileName, fileType } = body;
@@ -69,6 +72,9 @@ export async function POST(req: NextRequest) {
 
     await supabase.from("detected_schemas").delete().eq("project_id", projectId);
     await supabase.from("relationships").delete().eq("project_id", projectId);
+    // A new input invalidates any previously generated output for this project.
+    await supabase.from("generated_datasets").delete().eq("project_id", projectId);
+    await supabase.from("generated_documents").delete().eq("project_id", projectId);
 
     for (const table of enhancedTables) {
       await supabase.from("detected_schemas").insert({

@@ -20,6 +20,8 @@ export default function PreviewPanel({ projectId }: Props) {
 
   useEffect(() => {
     fetchData();
+    // fetchData only depends on projectId.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   async function fetchData() {
@@ -49,25 +51,42 @@ export default function PreviewPanel({ projectId }: Props) {
 
   async function handleExport(format: "csv" | "json" | "sql" | "pdf") {
     setExporting(true);
-    const res = await fetch("/api/export", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ projectId, format }),
-    });
+    try {
+      const res = await fetch("/api/export", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ projectId, format }),
+      });
 
-    const contentType = res.headers.get("Content-Type") || "";
-    const disposition = res.headers.get("Content-Disposition") || "";
-    const fileNameMatch = disposition.match(/filename="?([^"]+)"?/);
-    const fileName = fileNameMatch?.[1] || `export.${format}`;
+      if (!res.ok) {
+        // Don't download an error payload as if it were the export file.
+        let message = `Export failed (HTTP ${res.status})`;
+        try {
+          const data = await res.json();
+          if (data?.error) message = data.error;
+        } catch {
+          // Non-JSON error body — keep the generic message.
+        }
+        alert(message);
+        return;
+      }
 
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    URL.revokeObjectURL(url);
-    setExporting(false);
+      const disposition = res.headers.get("Content-Disposition") || "";
+      const fileNameMatch = disposition.match(/filename="?([^"]+)"?/);
+      const fileName = fileNameMatch?.[1] || `export.${format}`;
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert(err instanceof Error ? `Export failed: ${err.message}` : "Export failed");
+    } finally {
+      setExporting(false);
+    }
   }
 
   if (loading) {

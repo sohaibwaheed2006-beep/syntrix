@@ -8,6 +8,9 @@ import { validateDataset, computeStatistics, decideStatus, CompletionStatus, isV
 import { invoiceToHTML, bankStatementToHTML } from "@/lib/export/exporter";
 import { DetectedSchema, GenerationConfig, Relationship } from "@/types";
 
+// AI calls + many inserts can exceed Vercel's short default function timeout.
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
   const { projectId } = await req.json();
 
@@ -352,7 +355,7 @@ async function handleDocumentGeneration(
   supabase: ReturnType<typeof getServiceClient>,
   projectId: string,
   config: GenerationConfig,
-  project: { data_type: string }
+  _project: { data_type: string }
 ) {
   const docType = config.document_type || "invoice";
   const count = config.row_count;

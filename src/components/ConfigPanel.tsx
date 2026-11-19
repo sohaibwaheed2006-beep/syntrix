@@ -16,18 +16,29 @@ export default function ConfigPanel({ projectId, dataType, onSaved }: Props) {
   const [fieldNames, setFieldNames] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [loadError, setLoadError] = useState("");
+  const [saveError, setSaveError] = useState("");
 
   useEffect(() => {
     fetchConfig();
     fetchFields();
+    // fetchConfig/fetchFields only depend on projectId.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   async function fetchConfig() {
     setLoading(true);
-    const res = await fetch(`/api/config/${projectId}`);
-    const data = await res.json();
-    setConfig({ ...data, business_rules: data.business_rules || [] });
-    setLoading(false);
+    setLoadError("");
+    try {
+      const res = await fetch(`/api/config/${projectId}`);
+      const data = await res.json();
+      if (!res.ok || data?.error) throw new Error(data?.error || `HTTP ${res.status}`);
+      setConfig({ ...data, business_rules: data.business_rules || [] });
+    } catch (err) {
+      setLoadError(err instanceof Error ? err.message : "Failed to load configuration");
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function fetchFields() {
@@ -69,23 +80,45 @@ export default function ConfigPanel({ projectId, dataType, onSaved }: Props) {
   async function handleSave() {
     if (!config) return;
     setSaving(true);
-    await fetch(`/api/config/${projectId}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        row_count: config.row_count,
-        random_seed: config.random_seed,
-        locale: config.locale,
-        currency: config.currency,
-        null_rate: config.null_rate,
-        outlier_rate: config.outlier_rate,
-        privacy_level: config.privacy_level,
-        document_type: config.document_type,
-        business_rules: config.business_rules,
-      }),
-    });
-    setSaving(false);
-    onSaved();
+    setSaveError("");
+    try {
+      const res = await fetch(`/api/config/${projectId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          row_count: config.row_count,
+          random_seed: config.random_seed,
+          locale: config.locale,
+          currency: config.currency,
+          null_rate: config.null_rate,
+          outlier_rate: config.outlier_rate,
+          privacy_level: config.privacy_level,
+          document_type: config.document_type,
+          business_rules: config.business_rules,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || `Failed to save configuration (HTTP ${res.status})`);
+      }
+      onSaved();
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : "Failed to save configuration");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (!loading && loadError) {
+    return (
+      <div className="max-w-md mx-auto text-center py-16">
+        <p className="font-semibold mb-1">Couldn&apos;t load the configuration</p>
+        <p className="text-sm text-[var(--text-secondary)] mb-5">{loadError}</p>
+        <button type="button" onClick={fetchConfig} className="btn-3d px-5 py-2 text-sm font-semibold">
+          Try again
+        </button>
+      </div>
+    );
   }
 
   if (loading || !config) {
@@ -315,12 +348,19 @@ export default function ConfigPanel({ projectId, dataType, onSaved }: Props) {
         )}
       </div>
 
+      {saveError && (
+        <div className="mt-4 text-sm text-red-700 dark:text-red-300 bg-red-500/10 px-3 py-2.5 rounded-lg border border-red-500/20">
+          {saveError}
+        </div>
+      )}
+
       <button
+        type="button"
         onClick={handleSave}
         disabled={saving}
-        className="btn-3d w-full mt-4 px-6 py-3.5 disabled:opacity-50 font-bold text-lg"
+        className="btn-3d w-full mt-4 px-6 py-3 font-semibold text-base"
       >
-        {saving ? "Saving..." : "Save & Continue"}
+        {saving ? "Saving…" : "Save & Continue"}
       </button>
     </div>
   );

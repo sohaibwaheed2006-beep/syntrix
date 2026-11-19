@@ -169,7 +169,7 @@ class QueryBuilder<T = Record<string, unknown>> {
       return { data: [] as unknown as T[], error: null };
     }
 
-    let results = db[this.tableName].filter((row) => this.filters.every((f) => f(row)));
+    const results = db[this.tableName].filter((row) => this.filters.every((f) => f(row)));
 
     if (this.orderField) {
       const field = this.orderField;

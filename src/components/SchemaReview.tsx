@@ -14,8 +14,12 @@ export default function SchemaReview({ projectId, onConfirmed }: Props) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
+  const [saveError, setSaveError] = useState("");
+
   useEffect(() => {
     fetchSchemas();
+    // fetchSchemas only depends on projectId.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   async function fetchSchemas() {
@@ -35,13 +39,23 @@ export default function SchemaReview({ projectId, onConfirmed }: Props) {
 
   async function handleConfirm() {
     setSaving(true);
-    await fetch(`/api/schemas/${projectId}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ schemas, relationships }),
-    });
-    setSaving(false);
-    onConfirmed();
+    setSaveError("");
+    try {
+      const res = await fetch(`/api/schemas/${projectId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ schemas, relationships }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || `Failed to save schema (HTTP ${res.status})`);
+      }
+      onConfirmed();
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : "Failed to save schema");
+    } finally {
+      setSaving(false);
+    }
   }
 
   if (loading) {
@@ -199,12 +213,19 @@ export default function SchemaReview({ projectId, onConfirmed }: Props) {
         </div>
       )}
 
+      {saveError && (
+        <div className="mb-4 text-sm text-red-700 dark:text-red-300 bg-red-500/10 px-3 py-2.5 rounded-lg border border-red-500/20">
+          {saveError}
+        </div>
+      )}
+
       <button
+        type="button"
         onClick={handleConfirm}
         disabled={saving}
-        className="btn-3d w-full px-6 py-3.5 disabled:opacity-50 font-bold text-lg"
+        className="btn-3d w-full px-6 py-3 font-semibold text-base"
       >
-        {saving ? "Confirming..." : "Confirm Schema"}
+        {saving ? "Confirming…" : "Confirm Schema"}
       </button>
     </div>
   );

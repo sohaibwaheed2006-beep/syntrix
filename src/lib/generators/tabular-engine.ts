@@ -327,7 +327,7 @@ export function generateValue(
   index: number,
   rand: () => number,
   isOutlier: boolean,
-  config: GenerationConfig
+  _config: GenerationConfig
 ): unknown {
   const lower = col.name.toLowerCase();
 

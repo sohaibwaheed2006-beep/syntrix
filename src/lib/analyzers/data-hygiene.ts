@@ -94,7 +94,7 @@ export function parseFlexibleDate(value: string): ParsedDate {
 
   const slash = raw.match(DATE_SLASH);
   if (slash) {
-    let [, a, b, y] = slash;
+    const [, a, b, y] = slash;
     let year = Number(y);
     if (year < 100) year += 2000;
     const na = Number(a);
