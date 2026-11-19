@@ -176,6 +176,30 @@ function formatSQLValue(val: unknown, type: ColumnDef["type"]): string {
   return `'${str.replace(/'/g, "''")}'`;
 }
 
+/**
+ * Mobile styles shared by the invoice/statement templates. Also injected by the
+ * preview for documents stored before these styles existed (see
+ * withResponsiveDocCss). The marker comment lets callers detect it.
+ */
+export const RESPONSIVE_DOC_CSS = `/* hd-responsive */
+  *{box-sizing:border-box}
+  body{overflow-wrap:anywhere}
+  @media (max-width:640px){
+    table{display:block;overflow-x:auto;white-space:nowrap}
+    body{margin:0 auto;padding:16px;font-size:14px}
+    .header,.parties,.info{flex-direction:column;align-items:flex-start;gap:16px}
+    .header > div,.parties > div,.info > div{text-align:left!important}
+    .header h1{font-size:22px}
+    th,td{padding:8px 6px!important;font-size:12px}
+    .total{font-size:17px}
+  }`;
+
+export function withResponsiveDocCss(html: string): string {
+  if (!html || html.includes("hd-responsive")) return html;
+  const extra = `<meta name="viewport" content="width=device-width, initial-scale=1"><style>${RESPONSIVE_DOC_CSS}</style>`;
+  return html.includes("</head>") ? html.replace("</head>", `${extra}</head>`) : extra + html;
+}
+
 export function invoiceToHTML(invoice: InvoiceContent): string {
   const currencySymbol = invoice.currency === "USD" ? "$" : invoice.currency === "EUR" ? "€" : invoice.currency === "GBP" ? "£" : invoice.currency;
 
@@ -194,7 +218,7 @@ export function invoiceToHTML(invoice: InvoiceContent): string {
     .join("");
 
   return `<!DOCTYPE html>
-<html><head><meta charset="utf-8"><title>Invoice ${invoice.invoiceNumber}</title>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Invoice ${invoice.invoiceNumber}</title>
 <style>
   body{font-family:system-ui,sans-serif;max-width:800px;margin:40px auto;padding:20px;color:#1a1a2e}
   .header{display:flex;justify-content:space-between;margin-bottom:32px;padding-bottom:16px;border-bottom:3px solid #0d9488}
@@ -204,6 +228,7 @@ export function invoiceToHTML(invoice: InvoiceContent): string {
   table{width:100%;border-collapse:collapse;margin-bottom:24px}
   th{background:#f8fafc;padding:10px 8px;text-align:left;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid #e5e7eb}
   .total{text-align:right;font-size:20px;font-weight:700;color:#0d9488}
+  ${RESPONSIVE_DOC_CSS}
 </style>
 </head><body>
 <div class="header">
@@ -261,7 +286,7 @@ export function bankStatementToHTML(stmt: BankStatementContent): string {
     .join("");
 
   return `<!DOCTYPE html>
-<html><head><meta charset="utf-8"><title>Bank Statement</title>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Bank Statement</title>
 <style>
   body{font-family:system-ui,sans-serif;max-width:900px;margin:40px auto;padding:20px;color:#1a1a2e}
   .header{border-bottom:3px solid #0d9488;padding-bottom:16px;margin-bottom:24px}
@@ -269,6 +294,7 @@ export function bankStatementToHTML(stmt: BankStatementContent): string {
   .info{display:flex;justify-content:space-between;margin-bottom:24px;background:#f8fafc;padding:16px;border-radius:8px}
   table{width:100%;border-collapse:collapse}
   th{background:#f8fafc;padding:10px 8px;text-align:left;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid #e5e7eb}
+  ${RESPONSIVE_DOC_CSS}
 </style>
 </head><body>
 <div class="header">

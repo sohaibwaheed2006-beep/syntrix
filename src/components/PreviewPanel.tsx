@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { GeneratedDataset, GeneratedDocument, Relationship } from "@/types";
+import { withResponsiveDocCss } from "@/lib/export/exporter";
 
 interface Props {
   projectId: string;
@@ -209,7 +210,7 @@ export default function PreviewPanel({ projectId }: Props) {
               <tbody>
                 {currentDataset.data.slice(0, 50).map((row, i) => (
                   <tr key={i} className="border-b border-gray-50 hover:bg-gray-50">
-                    <td className="py-1.5 px-3 text-xs text-gray-400">{i + 1}</td>
+                    <td className="py-1.5 px-3 text-xs text-gray-400 whitespace-nowrap">{i + 1}</td>
                     {Object.entries(row).map(([k, val], j) => {
                       const isMoney = k.toLowerCase().includes("balance") || k.toLowerCase().includes("price") || k.toLowerCase().includes("salary") || k.toLowerCase().includes("cost") || k.toLowerCase().includes("amount") || k.toLowerCase().includes("total");
                       let displayVal = String(val);
@@ -222,7 +223,7 @@ export default function PreviewPanel({ projectId }: Props) {
                       }
 
                       return (
-                        <td key={j} className="py-1.5 px-3 font-mono text-xs">
+                        <td key={j} className="py-1.5 px-3 font-mono text-xs whitespace-nowrap max-w-[16rem] truncate">
                           {val === null || val === undefined ? (
                             <span className="text-gray-300 italic">null</span>
                           ) : (
@@ -320,7 +321,7 @@ export default function PreviewPanel({ projectId }: Props) {
                 </div>
                 {doc.html_content && (
                   <iframe
-                    srcDoc={doc.html_content}
+                    srcDoc={withResponsiveDocCss(doc.html_content)}
                     className="w-full h-96 border-0"
                     sandbox="allow-same-origin"
                   />

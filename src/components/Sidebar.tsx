@@ -34,14 +34,14 @@ export default function Sidebar({
       {mobileOpen && (
         <div
           onClick={onMobileClose}
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           aria-hidden="true"
         />
       )}
 
       <aside
-        className={`w-72 md:w-64 flex flex-col h-full border-r border-white/[0.06] shrink-0 z-50 fixed md:static inset-y-0 left-0 transition-transform duration-200 ease-out ${
-          mobileOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"
+        className={`w-[min(18rem,85vw)] lg:w-64 flex flex-col h-full border-r border-white/[0.06] shrink-0 z-50 fixed lg:static inset-y-0 left-0 transition-transform duration-200 ease-out ${
+          mobileOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full lg:translate-x-0"
         }`}
         style={{ background: "var(--bg-sidebar)", color: "#e2e8f0" }}
       >
@@ -57,7 +57,7 @@ export default function Sidebar({
           <button
             type="button"
             onClick={onMobileClose}
-            className="md:hidden p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            className="lg:hidden p-2 -mr-1 rounded-md text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
             title="Close menu"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -107,7 +107,7 @@ export default function Sidebar({
                         onSelect(project);
                         onMobileClose?.();
                       }}
-                      className={`w-full text-left pl-2.5 pr-9 py-2 rounded-md text-sm flex items-center gap-2.5 transition-colors ${
+                      className={`w-full text-left pl-2.5 pr-11 py-2.5 lg:py-2 rounded-md text-sm flex items-center gap-2.5 transition-colors ${
                         active ? "bg-white/[0.08] text-white" : "text-slate-400 hover:text-slate-100 hover:bg-white/[0.04]"
                       }`}
                     >
@@ -128,7 +128,7 @@ export default function Sidebar({
                           e.stopPropagation();
                           onDelete(project);
                         }}
-                        className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 rounded text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+                        className="absolute right-1 top-1/2 -translate-y-1/2 p-2 rounded text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 [@media(hover:none)]:opacity-100"
                       >
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
@@ -166,7 +166,7 @@ function NavItem({
     <button
       type="button"
       onClick={onClick}
-      className={`w-full text-left px-2.5 py-2 rounded-md text-sm flex items-center gap-2.5 transition-colors ${
+      className={`w-full text-left px-2.5 py-2.5 lg:py-2 rounded-md text-sm flex items-center gap-2.5 transition-colors ${
         active ? "bg-white/[0.08] text-white font-medium" : "text-slate-400 hover:text-slate-100 hover:bg-white/[0.04]"
       }`}
     >

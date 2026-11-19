@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
-import { exportToCSV, exportToJSON, exportToSQL } from "@/lib/export/exporter";
+import { exportToCSV, exportToJSON, exportToSQL, withResponsiveDocCss } from "@/lib/export/exporter";
 
 export async function POST(req: NextRequest) {
   const { projectId, format, tableNames } = await req.json();
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
       row_count: documents.length,
     });
 
-    return new NextResponse(doc.html_content, {
+    return new NextResponse(withResponsiveDocCss(doc.html_content), {
       headers: {
         "Content-Type": "text/html",
         "Content-Disposition": `attachment; filename="${doc.document_type}_${doc.document_number || "doc"}.html"`,

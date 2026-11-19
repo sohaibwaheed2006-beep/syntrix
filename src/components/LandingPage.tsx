@@ -19,13 +19,13 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
       {/* ================= HERO ================= */}
       <section className="relative overflow-hidden border-b border-[var(--border)]">
         <div className="hero-grid absolute inset-0 pointer-events-none" aria-hidden="true" />
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-8 pt-14 sm:pt-20 pb-16 sm:pb-20 grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-14 items-center">
-          <div className="animate-fade-up">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-8 pt-14 sm:pt-20 pb-16 sm:pb-20 grid grid-cols-1 2xl:grid-cols-[1.05fr_1fr] gap-12 2xl:gap-14 items-center">
+          <div className="animate-fade-up min-w-0">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--bg-card)] text-xs font-medium text-[var(--text-secondary)] mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               AI-assisted synthetic data generation
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-bold tracking-tight leading-[1.08] mb-5">
+            <h1 className="text-[2rem] leading-[1.12] sm:text-5xl 2xl:text-[3.4rem] font-bold tracking-tight leading-[1.08] mb-5">
               Production-grade test data,{" "}
               <span className="gradient-text">without the production risk.</span>
             </h1>
@@ -34,7 +34,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
               tabular, relational and document data on demand. Use it for testing, demos and analytics,
               without ever exposing a real customer record.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 mb-8">
+            <div className="flex flex-col min-[480px]:flex-row gap-3 mb-8">
               <button type="button" onClick={onCreate} className="btn-3d px-6 py-3 text-sm font-semibold">
                 Create a project
                 <ArrowIcon />
@@ -53,7 +53,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
             </ul>
           </div>
 
-          <div className="animate-fade-up delay-2">
+          <div className="animate-fade-up delay-2 min-w-0 max-w-3xl 2xl:max-w-none">
             <ProductPreview />
           </div>
         </div>
@@ -61,14 +61,14 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
 
       {/* ================= STATS ================= */}
       <section className="border-b border-[var(--border)] bg-[var(--bg-card)]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 grid grid-cols-2 xl:grid-cols-4 gap-6">
           {[
             { value: "3", label: "Generation engines" },
             { value: "12", label: "Semantic field types" },
             { value: "3", label: "Export formats" },
             { value: "100%", label: "Synthetic output" },
           ].map((s) => (
-            <div key={s.label} className="text-center md:text-left">
+            <div key={s.label} className="text-center xl:text-left">
               <p className="text-2xl sm:text-3xl font-bold tracking-tight">{s.value}</p>
               <p className="text-sm text-[var(--text-secondary)] mt-1">{s.label}</p>
             </div>
@@ -92,7 +92,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
         </div>
 
         {recent.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {recent.map((p) => (
               <button
                 key={p.id}
@@ -141,7 +141,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
             title="Everything you need to replace real data in non-production work"
             text="From schema inference to export, every stage is built to give you data that behaves like production data and contains none of it."
           />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--border)] rounded-xl overflow-hidden border border-[var(--border)]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-px bg-[var(--border)] rounded-xl overflow-hidden border border-[var(--border)]">
             {FEATURES.map((f) => (
               <div key={f.title} className="bg-[var(--bg-card)] p-6 sm:p-7">
                 <div className="w-10 h-10 rounded-lg bg-[var(--accent-light)] text-[var(--accent)] flex items-center justify-center mb-4">
@@ -163,7 +163,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
             title="From sample to dataset in four steps"
             text="A guided pipeline takes you from a raw file to a validated, export-ready synthetic dataset."
           />
-          <ol className="grid md:grid-cols-4 gap-4">
+          <ol className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
             {STEPS.map((s, i) => (
               <li key={s.title} className="glass rounded-xl p-6 relative">
                 <span className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-[var(--border-strong)] text-sm font-semibold text-[var(--accent)] mb-4">
@@ -179,7 +179,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
 
       {/* ================= USE CASES ================= */}
       <section id="use-cases" className="border-t border-[var(--border)] bg-[var(--bg-card)] scroll-mt-4">
-        <div className="max-w-6xl mx-auto px-4 sm:px-8 py-16 sm:py-20 grid lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-8 py-16 sm:py-20 grid grid-cols-1 xl:grid-cols-[1fr_1.4fr] gap-10 xl:gap-16">
           <div>
             <p className="eyebrow mb-3">Use cases</p>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">
@@ -201,7 +201,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
               </p>
             </div>
           </div>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {USE_CASES.map((u) => (
               <div key={u.title} className="rounded-xl border border-[var(--border)] p-5">
                 <h3 className="font-semibold mb-1.5">{u.title}</h3>
@@ -215,7 +215,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
       {/* ================= CTA ================= */}
       <section className="border-t border-[var(--border)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-8 py-16">
-          <div className="rounded-2xl bg-[var(--bg-sidebar)] text-white px-6 sm:px-12 py-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="rounded-2xl bg-[var(--bg-sidebar)] text-white px-6 sm:px-12 py-10 sm:py-12 flex flex-col xl:flex-row xl:items-center justify-between gap-8">
             <div className="max-w-xl">
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">
                 Ready to generate your first dataset?
@@ -238,13 +238,13 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
 
       {/* ================= FOOTER ================= */}
       <footer className="mt-auto border-t border-[var(--border)]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--text-muted)]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 flex flex-col xl:flex-row items-center justify-between gap-4 text-sm text-center text-[var(--text-muted)]">
           <div className="flex items-center gap-2">
             <LogoMark size={22} />
             <span className="font-semibold text-[var(--text-primary)]">HackData</span>
             <span>· Synthetic Data Platform</span>
           </div>
-          <nav className="flex gap-6">
+          <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             <a href="#features" className="hover:text-[var(--text-primary)] transition-colors">Features</a>
             <a href="#how-it-works" className="hover:text-[var(--text-primary)] transition-colors">How it works</a>
             <a href="#use-cases" className="hover:text-[var(--text-primary)] transition-colors">Use cases</a>
@@ -260,7 +260,7 @@ export default function LandingPage({ projects, onCreate, onOpenProject }: Landi
 
 function TopNav({ onCreate }: { onCreate: () => void }) {
   return (
-    <header className="hidden md:block sticky top-0 z-20 border-b border-[var(--border)] bg-[var(--bg-primary)]/85 backdrop-blur">
+    <header className="hidden lg:block sticky top-0 z-20 border-b border-[var(--border)] bg-[var(--bg-primary)]/85 backdrop-blur">
       <div className="max-w-6xl mx-auto px-8 h-14 flex items-center justify-between">
         <nav className="flex items-center gap-7 text-sm text-[var(--text-secondary)]">
           <a href="#features" className="hover:text-[var(--text-primary)] transition-colors">Features</a>

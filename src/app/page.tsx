@@ -120,7 +120,7 @@ export default function Home() {
   const activeIndex = steps.findIndex((step) => step.key === activeTab);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="app-shell flex overflow-hidden">
       <Sidebar
         projects={projects}
         selectedProject={selectedProject}
@@ -134,11 +134,11 @@ export default function Home() {
 
       <main className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Mobile top bar */}
-        <div className="md:hidden flex items-center justify-between px-4 h-14 border-b border-[var(--border)] bg-[var(--bg-card)] shrink-0 z-20">
+        <div className="lg:hidden flex items-center justify-between px-4 h-14 border-b border-[var(--border)] bg-[var(--bg-card)] shrink-0 z-20">
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="p-1.5 -ml-1.5 rounded-md text-[var(--text-primary)] hover:bg-[var(--bg-subtle)] transition-colors"
+            className="p-2 -ml-2 rounded-md text-[var(--text-primary)] hover:bg-[var(--bg-subtle)] transition-colors"
             title="Open menu"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -156,7 +156,7 @@ export default function Home() {
             HackData
           </button>
 
-          <button type="button" onClick={() => setShowCreateModal(true)} className="btn-3d px-3 py-1.5 text-xs font-semibold">
+          <button type="button" onClick={() => setShowCreateModal(true)} className="btn-3d px-3.5 py-2 text-xs font-semibold">
             New
           </button>
         </div>
@@ -165,7 +165,7 @@ export default function Home() {
           <>
             <header className="bg-[var(--bg-card)] border-b border-[var(--border)] px-4 sm:px-8 pt-4 sm:pt-5 shrink-0 z-10">
               {/* Breadcrumb */}
-              <nav className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] mb-2">
+              <nav className="hidden sm:flex items-center gap-1.5 text-xs text-[var(--text-muted)] mb-2 min-w-0">
                 <button
                   type="button"
                   onClick={() => setSelectedProject(null)}
@@ -179,9 +179,9 @@ export default function Home() {
                 <span className="text-[var(--text-secondary)] truncate">{selectedProject.name}</span>
               </nav>
 
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex items-start justify-between gap-3 mb-2 sm:mb-4">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-x-3 gap-y-1.5 flex-wrap">
                     <h1 className="text-xl sm:text-2xl font-bold tracking-tight truncate">{selectedProject.name}</h1>
                     <StatusBadge status={selectedProject.status} />
                   </div>
@@ -194,23 +194,24 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={() => setSelectedProject(null)}
-                    className="btn-secondary px-3 py-1.5 text-xs font-medium"
+                    className="btn-secondary px-2.5 sm:px-3 py-2 sm:py-1.5 text-xs font-medium"
+                    title="Back to Home"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M19 12H5M11 6l-6 6 6 6" />
                     </svg>
-                    Back
+                    <span className="hidden sm:inline">Back</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => handleDeleteProject(selectedProject)}
                     title="Delete this project"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] text-xs font-medium text-red-600 dark:text-red-400 border border-[var(--border-strong)] hover:bg-red-500/10 hover:border-red-500/30 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-[10px] text-xs font-medium text-red-600 dark:text-red-400 border border-[var(--border-strong)] hover:bg-red-500/10 hover:border-red-500/30 transition-colors"
                   >
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                     </svg>
-                    Delete
+                    <span className="hidden sm:inline">Delete</span>
                   </button>
                 </div>
               </div>
@@ -227,7 +228,7 @@ export default function Home() {
                       onClick={() => step.enabled && setActiveTab(step.key)}
                       disabled={!step.enabled}
                       aria-current={active ? "step" : undefined}
-                      className={`relative flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-medium whitespace-nowrap shrink-0 transition-colors border-b-2 ${
+                      className={`relative flex items-center gap-2 px-2.5 sm:px-4 py-3 text-sm font-medium whitespace-nowrap shrink-0 transition-colors border-b-2 ${
                         active
                           ? "border-[var(--accent)] text-[var(--text-primary)]"
                           : step.enabled
@@ -252,14 +253,14 @@ export default function Home() {
                           i + 1
                         )}
                       </span>
-                      {step.label}
+                      <span className={active ? "" : "hidden sm:inline"}>{step.label}</span>
                     </button>
                   );
                 })}
               </nav>
             </header>
 
-            <div key={activeTab} className="animate-fade-up flex-1 overflow-auto p-4 sm:p-8 min-w-0">
+            <div key={activeTab} className="animate-fade-up flex-1 overflow-auto px-4 py-5 sm:p-8 min-w-0">
               <div className="max-w-6xl mx-auto">
                 {activeTab === "upload" && (
                   <InputUpload
